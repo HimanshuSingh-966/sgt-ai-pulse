@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Pencil, Trash2, LogOut, BarChart3 } from "lucide-react";
+import { Plus, Pencil, Trash2, LogOut, BarChart3, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -11,13 +11,8 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Mock data
-  const posts = [
-    { id: 1, title: "AI Workshop on ML Fundamentals", category: "Workshops", status: "Published", views: 245, date: "Mar 15, 2024" },
-    { id: 2, title: "National AI Hackathon Winners", category: "AI News", status: "Published", views: 512, date: "Mar 12, 2024" },
-    { id: 3, title: "Deep Learning Research Published", category: "Research", status: "Published", views: 189, date: "Mar 10, 2024" },
-    { id: 4, title: "Guest Lecture: AI in Healthcare", category: "Campus Events", status: "Draft", views: 0, date: "Mar 8, 2024" },
-  ];
+  // Empty array - will be populated from database
+  const posts: any[] = [];
 
   const handleLogout = () => {
     toast({
@@ -56,7 +51,7 @@ const AdminDashboard = () => {
               <CardTitle className="text-sm font-medium text-muted-foreground">Total Posts</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">24</div>
+              <div className="text-3xl font-bold">{posts.length}</div>
             </CardContent>
           </Card>
           
@@ -65,7 +60,9 @@ const AdminDashboard = () => {
               <CardTitle className="text-sm font-medium text-muted-foreground">Published</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-secondary">18</div>
+              <div className="text-3xl font-bold text-secondary">
+                {posts.filter(p => p.status === "Published").length}
+              </div>
             </CardContent>
           </Card>
           
@@ -74,7 +71,9 @@ const AdminDashboard = () => {
               <CardTitle className="text-sm font-medium text-muted-foreground">Drafts</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-accent">6</div>
+              <div className="text-3xl font-bold text-accent">
+                {posts.filter(p => p.status === "Draft").length}
+              </div>
             </CardContent>
           </Card>
           
@@ -83,7 +82,9 @@ const AdminDashboard = () => {
               <CardTitle className="text-sm font-medium text-muted-foreground">Total Views</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-primary">12.5K</div>
+              <div className="text-3xl font-bold text-primary">
+                {posts.reduce((acc, p) => acc + (p.views || 0), 0)}
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -103,54 +104,66 @@ const AdminDashboard = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Views</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {posts.map((post) => (
-                  <TableRow key={post.id}>
-                    <TableCell className="font-medium">{post.title}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{post.category}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={post.status === "Published" ? "default" : "secondary"}>
-                        {post.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <BarChart3 className="h-4 w-4 text-muted-foreground" />
-                        {post.views}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">{post.date}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button variant="ghost" size="icon">
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          onClick={() => handleDelete(post.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </div>
-                    </TableCell>
+            {posts.length > 0 ? (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Views</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {posts.map((post) => (
+                    <TableRow key={post.id}>
+                      <TableCell className="font-medium">{post.title}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{post.category}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={post.status === "Published" ? "default" : "secondary"}>
+                          {post.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1">
+                          <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                          {post.views}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">{post.date}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button variant="ghost" size="icon">
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="icon"
+                            onClick={() => handleDelete(post.id)}
+                          >
+                            <Trash2 className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <FileText className="mb-4 h-16 w-16 text-muted-foreground" />
+                <h3 className="mb-2 text-xl font-semibold">No posts yet</h3>
+                <p className="mb-6 text-muted-foreground">Get started by creating your first news post</p>
+                <Button>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create First Post
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       </main>

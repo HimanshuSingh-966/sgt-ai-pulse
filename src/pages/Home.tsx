@@ -4,69 +4,13 @@ import Hero from "@/components/Hero";
 import NewsCard from "@/components/NewsCard";
 import FilterBar from "@/components/FilterBar";
 import Footer from "@/components/Footer";
-import { Sparkles, Calendar, GraduationCap } from "lucide-react";
+import { Sparkles, Calendar, GraduationCap, Newspaper } from "lucide-react";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Mock data - will be replaced with real data from database
-  const mockNews = [
-    {
-      id: "1",
-      title: "AI Club Hosts Workshop on Machine Learning Fundamentals",
-      excerpt: "Students gathered to learn the basics of machine learning, including neural networks and data preprocessing techniques.",
-      category: "Workshops",
-      date: "Mar 15, 2024",
-      author: "Dr. Rajesh Kumar",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
-      featured: true
-    },
-    {
-      id: "2",
-      title: "SGT University Students Win National AI Hackathon",
-      excerpt: "Our AI Club members secured first place in the prestigious National AI Innovation Challenge with their healthcare solution.",
-      category: "AI News",
-      date: "Mar 12, 2024",
-      author: "Admin",
-      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
-    },
-    {
-      id: "3",
-      title: "Research Paper on Deep Learning Published in IEEE Conference",
-      excerpt: "Faculty and students collaborate on groundbreaking research in computer vision, accepted at IEEE International Conference.",
-      category: "Research",
-      date: "Mar 10, 2024",
-      author: "Dr. Priya Sharma",
-      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa"
-    },
-    {
-      id: "4",
-      title: "Guest Lecture: AI in Healthcare by Industry Expert",
-      excerpt: "Join us for an insightful session on how artificial intelligence is revolutionizing healthcare and medical diagnostics.",
-      category: "Campus Events",
-      date: "Mar 8, 2024",
-      author: "AI Club Team",
-      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d"
-    },
-    {
-      id: "5",
-      title: "New AI Lab Inaugurated with State-of-the-Art Equipment",
-      excerpt: "SGT University unveils cutting-edge AI laboratory with GPU clusters and advanced computing infrastructure for student research.",
-      category: "AI News",
-      date: "Mar 5, 2024",
-      author: "Admin",
-      image: "https://images.unsplash.com/photo-1581092921461-eab62e97a780"
-    },
-    {
-      id: "6",
-      title: "Python for AI: Beginner Workshop Series Announced",
-      excerpt: "AI Club launches comprehensive workshop series covering Python programming essentials for artificial intelligence applications.",
-      category: "Workshops",
-      date: "Mar 3, 2024",
-      author: "AI Club Team",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5"
-    }
-  ];
+  // Empty array - will be populated from database
+  const news: any[] = [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -84,9 +28,17 @@ const Home = () => {
           <FilterBar />
           
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {mockNews.map((news) => (
-              <NewsCard key={news.id} {...news} />
-            ))}
+            {news.length > 0 ? (
+              news.map((item) => (
+                <NewsCard key={item.id} {...item} />
+              ))
+            ) : (
+              <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
+                <Newspaper className="mb-4 h-16 w-16 text-muted-foreground" />
+                <h3 className="mb-2 text-xl font-semibold">No news posted yet</h3>
+                <p className="text-muted-foreground">Check back soon for the latest AI updates!</p>
+              </div>
+            )}
           </div>
         </section>
 
@@ -98,11 +50,19 @@ const Home = () => {
           </div>
           
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {mockNews
-              .filter((news) => news.category === "Campus Events")
-              .map((news) => (
-                <NewsCard key={news.id} {...news} />
-              ))}
+            {news.filter((item) => item.category === "Campus Events").length > 0 ? (
+              news
+                .filter((item) => item.category === "Campus Events")
+                .map((item) => (
+                  <NewsCard key={item.id} {...item} />
+                ))
+            ) : (
+              <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
+                <Calendar className="mb-4 h-16 w-16 text-muted-foreground" />
+                <h3 className="mb-2 text-xl font-semibold">No events scheduled</h3>
+                <p className="text-muted-foreground">Stay tuned for upcoming AI events!</p>
+              </div>
+            )}
           </div>
         </section>
 
@@ -114,11 +74,19 @@ const Home = () => {
           </div>
           
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {mockNews
-              .filter((news) => news.category === "Research")
-              .map((news) => (
-                <NewsCard key={news.id} {...news} />
-              ))}
+            {news.filter((item) => item.category === "Research").length > 0 ? (
+              news
+                .filter((item) => item.category === "Research")
+                .map((item) => (
+                  <NewsCard key={item.id} {...item} />
+                ))
+            ) : (
+              <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
+                <GraduationCap className="mb-4 h-16 w-16 text-muted-foreground" />
+                <h3 className="mb-2 text-xl font-semibold">No research highlights</h3>
+                <p className="text-muted-foreground">Research papers will be featured here!</p>
+              </div>
+            )}
           </div>
         </section>
       </main>

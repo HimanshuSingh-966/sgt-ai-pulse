@@ -31,6 +31,9 @@ const Header = ({ onSearch }: HeaderProps) => {
             <Link to="#research" className="text-sm font-medium transition-colors hover:text-primary">
               Research
             </Link>
+            <Link to="/admin/login" className="text-sm font-medium transition-colors hover:text-accent">
+              Admin
+            </Link>
           </nav>
 
           <div className="flex items-center gap-4">
