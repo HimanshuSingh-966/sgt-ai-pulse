@@ -22,13 +22,13 @@ const Header = ({ onSearch }: HeaderProps) => {
             <Link to="/" className="text-sm font-medium transition-colors hover:text-primary">
               Home
             </Link>
-            <Link to="#news" className="text-sm font-medium transition-colors hover:text-primary">
-              Latest News
+            <Link to="/news" className="text-sm font-medium transition-colors hover:text-primary">
+              News
             </Link>
-            <Link to="#events" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link to="/events" className="text-sm font-medium transition-colors hover:text-primary">
               Events
             </Link>
-            <Link to="#research" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link to="/research" className="text-sm font-medium transition-colors hover:text-primary">
               Research
             </Link>
             <Link to="/admin/login" className="text-sm font-medium transition-colors hover:text-accent">
