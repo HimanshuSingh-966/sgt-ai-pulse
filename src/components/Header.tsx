@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, Activity } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import sgtLogo from "@/assets/sgt-logo.png";
 import aiClubLogo from "@/assets/ai-club-logo.png";
 
@@ -37,6 +38,12 @@ const Header = ({ onSearch }: HeaderProps) => {
           </nav>
 
           <div className="flex items-center gap-4">
+            <Link to="/connection-test">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Activity className="h-4 w-4" />
+                <span className="hidden lg:inline">Test Connection</span>
+              </Button>
+            </Link>
             <div className="relative hidden sm:block">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
