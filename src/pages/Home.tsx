@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
@@ -6,14 +6,54 @@ import NewsCard from "@/components/NewsCard";
 import Footer from "@/components/Footer";
 import { Sparkles, Calendar, GraduationCap, Newspaper, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [latestNews, setLatestNews] = useState<any[]>([]);
+  const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
+  const [latestResearch, setLatestResearch] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const news: any[] = [];
-  const latestNews = news.slice(0, 3);
-  const upcomingEvents = news.filter((item) => item.category === "Campus Events").slice(0, 3);
-  const latestResearch = news.filter((item) => item.category === "Research").slice(0, 3);
+  useEffect(() => {
+    fetchAllContent();
+  }, []);
+
+  const fetchAllContent = async () => {
+    setLoading(true);
+
+    // Fetch latest 3 news
+    const { data: newsData } = await supabase
+      .from("posts")
+      .select("*")
+      .eq("category", "News")
+      .eq("status", "Published")
+      .order("created_at", { ascending: false })
+      .limit(3);
+
+    // Fetch latest 3 events
+    const { data: eventsData } = await supabase
+      .from("posts")
+      .select("*")
+      .eq("category", "Events")
+      .eq("status", "Published")
+      .order("created_at", { ascending: false })
+      .limit(3);
+
+    // Fetch latest 3 research
+    const { data: researchData } = await supabase
+      .from("posts")
+      .select("*")
+      .eq("category", "Research")
+      .eq("status", "Published")
+      .order("created_at", { ascending: false })
+      .limit(3);
+
+    setLatestNews(newsData || []);
+    setUpcomingEvents(eventsData || []);
+    setLatestResearch(researchData || []);
+    setLoading(false);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -37,9 +77,23 @@ const Home = () => {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {latestNews.length > 0 ? (
+            {loading ? (
+              <div className="col-span-full flex justify-center py-8">
+                <div className="text-lg">Loading...</div>
+              </div>
+            ) : latestNews.length > 0 ? (
               latestNews.map((item) => (
-                <NewsCard key={item.id} {...item} />
+                <NewsCard 
+                  key={item.id} 
+                  id={item.id}
+                  title={item.title}
+                  excerpt={item.excerpt}
+                  category={item.category}
+                  date={new Date(item.created_at).toLocaleDateString()}
+                  author={item.author}
+                  image={item.image || "/placeholder.svg"}
+                  featured={item.featured}
+                />
               ))
             ) : (
               <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
@@ -67,9 +121,23 @@ const Home = () => {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {upcomingEvents.length > 0 ? (
+            {loading ? (
+              <div className="col-span-full flex justify-center py-8">
+                <div className="text-lg">Loading...</div>
+              </div>
+            ) : upcomingEvents.length > 0 ? (
               upcomingEvents.map((item) => (
-                <NewsCard key={item.id} {...item} />
+                <NewsCard 
+                  key={item.id} 
+                  id={item.id}
+                  title={item.title}
+                  excerpt={item.excerpt}
+                  category={item.category}
+                  date={new Date(item.created_at).toLocaleDateString()}
+                  author={item.author}
+                  image={item.image || "/placeholder.svg"}
+                  featured={item.featured}
+                />
               ))
             ) : (
               <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
@@ -97,9 +165,23 @@ const Home = () => {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {latestResearch.length > 0 ? (
+            {loading ? (
+              <div className="col-span-full flex justify-center py-8">
+                <div className="text-lg">Loading...</div>
+              </div>
+            ) : latestResearch.length > 0 ? (
               latestResearch.map((item) => (
-                <NewsCard key={item.id} {...item} />
+                <NewsCard 
+                  key={item.id} 
+                  id={item.id}
+                  title={item.title}
+                  excerpt={item.excerpt}
+                  category={item.category}
+                  date={new Date(item.created_at).toLocaleDateString()}
+                  author={item.author}
+                  image={item.image || "/placeholder.svg"}
+                  featured={item.featured}
+                />
               ))
             ) : (
               <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">

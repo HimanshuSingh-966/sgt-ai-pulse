@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus, Pencil, Trash2, LogOut, BarChart3, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/lib/supabase";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -19,7 +20,33 @@ const AdminDashboard = () => {
     }
   }, [user, loading, navigate]);
 
-  const posts: any[] = [];
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      fetchPosts();
+    }
+  }, [user]);
+
+  const fetchPosts = async () => {
+    setLoadingPosts(true);
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load posts",
+        variant: "destructive",
+      });
+    } else {
+      setPosts(data || []);
+    }
+    setLoadingPosts(false);
+  };
 
   const handleLogout = async () => {
     await signOut();
@@ -29,11 +56,25 @@ const AdminDashboard = () => {
     navigate("/admin/login");
   };
 
-  const handleDelete = (id: number) => {
-    toast({
-      title: "Post deleted",
-      description: "The post has been removed successfully.",
-    });
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase
+      .from("posts")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete post",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Post deleted",
+        description: "The post has been removed successfully.",
+      });
+      fetchPosts();
+    }
   };
 
   if (loading) {
@@ -117,14 +158,18 @@ const AdminDashboard = () => {
                 <CardTitle>Manage Posts</CardTitle>
                 <CardDescription>Create, edit, and manage your news posts</CardDescription>
               </div>
-              <Button>
+              <Button onClick={() => navigate("/admin/post/new")}>
                 <Plus className="mr-2 h-4 w-4" />
                 New Post
               </Button>
             </div>
           </CardHeader>
           <CardContent>
-            {posts.length > 0 ? (
+            {loadingPosts ? (
+              <div className="flex justify-center py-16">
+                <div className="text-lg">Loading posts...</div>
+              </div>
+            ) : posts.length > 0 ? (
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -154,10 +199,16 @@ const AdminDashboard = () => {
                           {post.views}
                         </div>
                       </TableCell>
-                      <TableCell className="text-muted-foreground">{post.date}</TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {new Date(post.created_at).toLocaleDateString()}
+                      </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
-                          <Button variant="ghost" size="icon">
+                          <Button 
+                            variant="ghost" 
+                            size="icon"
+                            onClick={() => navigate(`/admin/post/edit/${post.id}`)}
+                          >
                             <Pencil className="h-4 w-4" />
                           </Button>
                           <Button 
@@ -178,7 +229,7 @@ const AdminDashboard = () => {
                 <FileText className="mb-4 h-16 w-16 text-muted-foreground" />
                 <h3 className="mb-2 text-xl font-semibold">No posts yet</h3>
                 <p className="mb-6 text-muted-foreground">Get started by creating your first news post</p>
-                <Button>
+                <Button onClick={() => navigate("/admin/post/new")}>
                   <Plus className="mr-2 h-4 w-4" />
                   Create First Post
                 </Button>

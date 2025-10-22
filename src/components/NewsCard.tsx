@@ -2,6 +2,7 @@ import { Calendar, User, ArrowRight } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface NewsCardProps {
   id: string;
@@ -14,9 +15,11 @@ interface NewsCardProps {
   featured?: boolean;
 }
 
-const NewsCard = ({ title, excerpt, category, date, author, image, featured }: NewsCardProps) => {
+const NewsCard = ({ id, title, excerpt, category, date, author, image, featured }: NewsCardProps) => {
+  const navigate = useNavigate();
+
   return (
-    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-card-hover">
+    <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-card-hover" onClick={() => navigate(`/post/${id}`)}>
       <CardHeader className="p-0">
         <div className="relative h-48 w-full overflow-hidden">
           <img 
@@ -56,7 +59,14 @@ const NewsCard = ({ title, excerpt, category, date, author, image, featured }: N
       </CardContent>
       
       <CardFooter className="p-6 pt-0">
-        <Button variant="ghost" className="group/btn w-full justify-between">
+        <Button 
+          variant="ghost" 
+          className="group/btn w-full justify-between"
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/post/${id}`);
+          }}
+        >
           Read More
           <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
         </Button>
