@@ -26,6 +26,27 @@ const AdminDashboard = () => {
   useEffect(() => {
     if (user) {
       fetchPosts();
+
+      // Set up realtime subscription for posts
+      const channel = supabase
+        .channel('posts-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*', // Listen to all changes (INSERT, UPDATE, DELETE)
+            schema: 'public',
+            table: 'posts'
+          },
+          () => {
+            // Refetch posts when any change occurs
+            fetchPosts();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [user]);
 

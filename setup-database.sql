@@ -144,6 +144,9 @@ CREATE TRIGGER update_posts_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
+-- Enable Realtime for posts table (auto-refresh in admin dashboard)
+ALTER PUBLICATION supabase_realtime ADD TABLE posts;
+
 -- ============================================
 -- SETUP COMPLETE!
 -- ============================================

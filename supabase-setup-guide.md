@@ -40,11 +40,16 @@ VALUES ('YOUR_USER_ID', 'admin');
 ## Database Structure Overview
 
 ### Tables Created:
-- **posts**: Stores all news, events, and research articles
+- **posts**: Stores all news, events, and research articles (with realtime enabled)
 - **user_roles**: Manages admin permissions (separate from admin_profiles for security)
 
 ### Your Existing Table:
 - **admin_profiles**: Still used for admin profile information (name, email)
+
+### Features Enabled:
+- **Realtime updates**: Admin dashboard automatically refreshes when posts are created/updated/deleted
+- **Row Level Security**: Proper access control for all tables
+- **Automatic timestamps**: Posts track creation and update times
 
 ## Security Notes
 
