@@ -1,14 +1,30 @@
--- ========================================
+-- ============================================
 -- AI CLUB NEWS PORTAL - DATABASE SETUP
--- ========================================
--- Run this SQL in your Supabase SQL Editor
+-- ============================================
+-- This script creates tables for posts and user roles
+-- Works with your existing admin_profiles table
+-- 
+-- WHAT THIS CREATES:
+-- 1. Posts table (for News, Events, Research articles)
+-- 2. User roles table (secure admin permissions)
+-- 3. RLS policies (security)
+-- 4. Indexes (performance)
+-- 5. Helper functions (role checking)
 --
--- This will create:
--- 1. Posts table for News, Events, and Research
--- 2. User roles table for admin access control
--- 3. Row Level Security (RLS) policies
--- 4. Indexes for performance
--- ========================================
+-- INSTRUCTIONS:
+-- 1. Copy this entire script
+-- 2. Go to Supabase Dashboard > SQL Editor > New Query
+-- 3. Paste and click "Run"
+-- 4. Then follow steps in 'create_admin_user.sql'
+-- ============================================
+
+-- Enable required extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Drop existing types if they exist (for clean reinstall)
+DROP TYPE IF EXISTS post_category CASCADE;
+DROP TYPE IF EXISTS post_status CASCADE;
+DROP TYPE IF EXISTS app_role CASCADE;
 
 -- Create enum for post categories
 CREATE TYPE post_category AS ENUM ('News', 'Events', 'Research');
@@ -128,21 +144,10 @@ CREATE TRIGGER update_posts_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
--- ========================================
--- STEP 2: CREATE YOUR ADMIN USER
--- ========================================
--- After running the above, you need to:
--- 1. Create a user account in Supabase Authentication
--- 2. Get that user's ID from the auth.users table
--- 3. Run this command with your user's email:
-
--- INSERT INTO user_roles (user_id, role)
--- SELECT id, 'admin'::app_role
--- FROM auth.users
--- WHERE email = 'your-admin-email@example.com'
--- ON CONFLICT DO NOTHING;
-
--- ========================================
--- DONE!
--- ========================================
--- Your database is now ready to use!
+-- ============================================
+-- SETUP COMPLETE!
+-- ============================================
+-- Next step: Create your admin user
+-- See 'create_admin_user.sql' or follow the guide
+-- in 'supabase-setup-guide.md'
+-- ============================================
