@@ -12,21 +12,13 @@
 
 ### Step 2: Create Your First Admin User
 
-#### Option A: If you don't have an account yet
-1. Go to your app at `/admin/login`
-2. Sign up with your email and password
-3. After signing up, get your user ID by running this in Supabase SQL Editor:
-```sql
-SELECT id, email FROM auth.users ORDER BY created_at DESC LIMIT 1;
-```
-4. Copy the `id` value
-5. Run this SQL (replace `YOUR_USER_ID` with the copied ID):
-```sql
-INSERT INTO user_roles (user_id, role) 
-VALUES ('YOUR_USER_ID', 'admin');
-```
+#### Option A: Create a brand new admin user with SQL
+1. Open `create_admin_user.sql` file
+2. Replace the email and password with your desired credentials
+3. Copy the entire SQL script
+4. Run it in Supabase SQL Editor
 
-#### Option B: If you already have an account in admin_profiles
+#### Option B: Grant admin role to existing user in admin_profiles
 1. Get your user ID from admin_profiles:
 ```sql
 SELECT id, email FROM admin_profiles;
