@@ -42,22 +42,22 @@ const Footer = () => {
           <div>
             <h4 className="mb-4 text-sm font-semibold">Contact Us</h4>
             <div className="space-y-3">
-              <a href="mailto:aiclub@sgtuniversity.edu" className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary">
+              <a href="mailto:himanshu.singh.2kfive@gmail.com" className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary">
                 <Mail className="h-4 w-4" />
-                aiclub@sgtuniversity.edu
+                himanshu.singh.2kfive@gmail.com
               </a>
-              <a href="https://sgtuniversity.edu" className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary">
+              {/* <a href="https://sgtuniversity.edu" className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary">
                 <Globe className="h-4 w-4" />
                 sgtuniversity.edu
-              </a>
-              <div className="flex gap-3 pt-2">
+              </a> */}
+              {/* <div className="flex gap-3 pt-2">
                 <a href="#" className="text-muted-foreground transition-colors hover:text-primary">
                   <Twitter className="h-5 w-5" />
                 </a>
                 <a href="#" className="text-muted-foreground transition-colors hover:text-primary">
                   <Linkedin className="h-5 w-5" />
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
