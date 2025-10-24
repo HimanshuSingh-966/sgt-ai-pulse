@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="border-t border-border bg-muted/30">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-3">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           <div>
             <h3 className="mb-4 text-lg font-bold">AI Club - SGT University</h3>
             <p className="text-sm text-muted-foreground">

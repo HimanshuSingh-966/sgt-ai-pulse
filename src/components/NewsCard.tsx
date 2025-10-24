@@ -21,7 +21,7 @@ const NewsCard = ({ id, title, excerpt, category, date, author, image, featured 
   return (
     <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-card-hover" onClick={() => navigate(`/post/${id}`)}>
       <CardHeader className="p-0">
-        <div className="relative h-48 w-full overflow-hidden">
+        <div className="relative h-44 md:h-48 w-full overflow-hidden">
           <img 
             src={image} 
             alt={title}
@@ -35,20 +35,20 @@ const NewsCard = ({ id, title, excerpt, category, date, author, image, featured 
         </div>
       </CardHeader>
       
-      <CardContent className="p-6">
-        <div className="mb-3 flex items-center gap-2">
-          <Badge variant="secondary">{category}</Badge>
+      <CardContent className="p-4 md:p-6">
+        <div className="mb-2 md:mb-3 flex items-center gap-2 flex-wrap">
+          <Badge variant="secondary" className="text-xs">{category}</Badge>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Calendar className="h-3 w-3" />
             <span>{date}</span>
           </div>
         </div>
         
-        <h3 className="mb-3 line-clamp-2 text-xl font-bold transition-colors group-hover:text-primary">
+        <h3 className="mb-2 md:mb-3 line-clamp-2 text-lg md:text-xl font-bold transition-colors group-hover:text-primary">
           {title}
         </h3>
         
-        <p className="mb-4 line-clamp-3 text-sm text-muted-foreground">
+        <p className="mb-3 md:mb-4 line-clamp-3 text-sm text-muted-foreground">
           {excerpt}
         </p>
         
@@ -58,17 +58,18 @@ const NewsCard = ({ id, title, excerpt, category, date, author, image, featured 
         </div>
       </CardContent>
       
-      <CardFooter className="p-6 pt-0">
+      <CardFooter className="p-4 md:p-6 pt-0">
         <Button 
           variant="ghost" 
-          className="group/btn w-full justify-between"
+          size="sm"
+          className="group/btn w-full justify-between text-sm"
           onClick={(e) => {
             e.stopPropagation();
             navigate(`/post/${id}`);
           }}
         >
           Read More
-          <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+          <ArrowRight className="h-3 w-3 md:h-4 md:w-4 transition-transform group-hover/btn:translate-x-1" />
         </Button>
       </CardFooter>
     </Card>

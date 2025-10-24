@@ -60,18 +60,18 @@ const Home = () => {
       <Header onSearch={setSearchQuery} />
       <Hero />
       
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-8 md:py-12">
         {/* Latest News Section */}
-        <section id="news" className="mb-16">
-          <div className="mb-8 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Sparkles className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-bold">Latest AI News</h2>
+        <section id="news" className="mb-12 md:mb-16">
+          <div className="mb-6 md:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-primary flex-shrink-0" />
+              <h2 className="text-2xl md:text-3xl font-bold">Latest AI News</h2>
             </div>
             <Link to="/news">
-              <Button variant="outline">
+              <Button variant="outline" size="sm" className="md:size-default">
                 View All
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-3 w-3 md:h-4 md:w-4" />
               </Button>
             </Link>
           </div>
@@ -106,16 +106,16 @@ const Home = () => {
         </section>
 
         {/* Campus Events Section */}
-        <section id="events" className="mb-16">
-          <div className="mb-8 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Calendar className="h-6 w-6 text-secondary" />
-              <h2 className="text-3xl font-bold">Upcoming Events</h2>
+        <section id="events" className="mb-12 md:mb-16">
+          <div className="mb-6 md:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <Calendar className="h-5 w-5 md:h-6 md:w-6 text-secondary flex-shrink-0" />
+              <h2 className="text-2xl md:text-3xl font-bold">Upcoming Events</h2>
             </div>
             <Link to="/events">
-              <Button variant="outline">
+              <Button variant="outline" size="sm" className="md:size-default">
                 View All
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-3 w-3 md:h-4 md:w-4" />
               </Button>
             </Link>
           </div>
@@ -150,16 +150,16 @@ const Home = () => {
         </section>
 
         {/* Research Highlights Section */}
-        <section id="research" className="mb-16">
-          <div className="mb-8 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <GraduationCap className="h-6 w-6 text-accent" />
-              <h2 className="text-3xl font-bold">Research Highlights</h2>
+        <section id="research" className="mb-12 md:mb-16">
+          <div className="mb-6 md:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <GraduationCap className="h-5 w-5 md:h-6 md:w-6 text-accent flex-shrink-0" />
+              <h2 className="text-2xl md:text-3xl font-bold">Research Highlights</h2>
             </div>
             <Link to="/research">
-              <Button variant="outline">
+              <Button variant="outline" size="sm" className="md:size-default">
                 View All
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-3 w-3 md:h-4 md:w-4" />
               </Button>
             </Link>
           </div>
